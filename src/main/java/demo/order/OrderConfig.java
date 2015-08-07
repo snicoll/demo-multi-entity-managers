@@ -7,7 +7,6 @@ import demo.order.domain.Order;
 
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.autoconfigure.orm.jpa.EntityManagerFactoryBuilder;
-import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,12 +29,11 @@ public class OrderConfig {
 
 	@Bean
 	public LocalContainerEntityManagerFactoryBean orderEntityManager(
-			EntityManagerFactoryBuilder builder, JpaProperties jpaProperties) {
+			EntityManagerFactoryBuilder builder) {
 		return builder
 				.dataSource(orderDataSource())
 				.packages(Order.class)
 				.persistenceUnit("orders")
-				.properties(jpaProperties.getHibernateProperties(orderDataSource()))
 				.build();
 	}
 

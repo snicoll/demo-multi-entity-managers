@@ -7,7 +7,6 @@ import demo.customer.domain.Customer;
 
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.autoconfigure.orm.jpa.EntityManagerFactoryBuilder;
-import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,12 +32,11 @@ public class CustomerConfig {
 
 	@Bean
 	public LocalContainerEntityManagerFactoryBean customerEntityManager(
-			EntityManagerFactoryBuilder builder, JpaProperties jpaProperties) {
+			EntityManagerFactoryBuilder builder) {
 		return builder
 				.dataSource(customerDataSource())
 				.packages(Customer.class)
 				.persistenceUnit("customers")
-				.properties(jpaProperties.getHibernateProperties(customerDataSource()))
 				.build();
 	}
 
