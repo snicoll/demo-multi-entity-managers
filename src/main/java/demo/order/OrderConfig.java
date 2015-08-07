@@ -1,9 +1,9 @@
 package demo.order;
 
 import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
 
 import demo.order.domain.Order;
+import org.apache.tomcat.jdbc.pool.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
@@ -39,7 +39,7 @@ public class OrderConfig {
 	@Bean
 	@ConfigurationProperties(prefix = "app.order.datasource")
 	public DataSource orderDataSource() {
-		return DataSourceBuilder.create().build();
+		return (DataSource) DataSourceBuilder.create().type(DataSource.class).build();
 	}
 
 	@Bean

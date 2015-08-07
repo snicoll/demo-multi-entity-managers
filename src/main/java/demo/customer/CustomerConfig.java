@@ -1,9 +1,9 @@
 package demo.customer;
 
 import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
 
 import demo.customer.domain.Customer;
+import org.apache.tomcat.jdbc.pool.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
@@ -41,7 +41,7 @@ public class CustomerConfig {
 	@Primary
 	@ConfigurationProperties(prefix = "app.customer.datasource")
 	public DataSource customerDataSource() {
-		return DataSourceBuilder.create().build();
+		return (DataSource) DataSourceBuilder.create().type(DataSource.class).build();
 	}
 
 	@Bean
