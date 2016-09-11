@@ -7,9 +7,9 @@ import org.apache.tomcat.jdbc.pool.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
-import org.springframework.boot.autoconfigure.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -60,8 +60,8 @@ public class OrderConfig {
 
 	private EntityManagerFactoryBuilder createEntityManagerFactoryBuilder(JpaProperties customerJpaProperties) {
 		JpaVendorAdapter jpaVendorAdapter = createJpaVendorAdapter(customerJpaProperties);
-		return new EntityManagerFactoryBuilder(
-				jpaVendorAdapter, customerJpaProperties, this.persistenceUnitManager);
+		return new EntityManagerFactoryBuilder(jpaVendorAdapter,
+				customerJpaProperties.getProperties(), this.persistenceUnitManager);
 	}
 
 	private JpaVendorAdapter createJpaVendorAdapter(JpaProperties jpaProperties) {
