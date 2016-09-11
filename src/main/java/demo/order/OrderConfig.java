@@ -49,7 +49,7 @@ public class OrderConfig {
 		return builder
 				.dataSource(orderDataSource())
 				.packages(Order.class)
-				.persistenceUnit("orders")
+				.persistenceUnit("ordersDs")
 				.build();
 	}
 

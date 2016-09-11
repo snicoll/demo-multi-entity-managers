@@ -51,7 +51,7 @@ public class CustomerConfig {
 		return builder
 				.dataSource(customerDataSource())
 				.packages(Customer.class)
-				.persistenceUnit("customers")
+				.persistenceUnit("customersDs")
 				.build();
 	}
 
