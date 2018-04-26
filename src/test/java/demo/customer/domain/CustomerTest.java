@@ -7,8 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest // This slice test uses only enables selected auto-configuration and ignores CustomerConfig
@@ -19,12 +18,10 @@ public class CustomerTest {
 
 	@Test
 	public void save() {
-		Customer customer = new Customer();
-		customer.setFirstName("John");
-		customer.setLastName("Smith");
-		assertThat(customer.getId(), is(nullValue()));
+		Customer customer = new Customer("John", "Smith");
+		assertThat(customer.getId()).isNull();
 		this.customerRepository.save(customer);
-		assertThat(customer.getId(), is(not(nullValue())));
+		assertThat(customer.getId()).isNotNull();
 	}
 
 }

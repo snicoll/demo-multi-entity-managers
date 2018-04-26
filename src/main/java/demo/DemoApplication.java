@@ -5,10 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 
 @SpringBootApplication(exclude = HibernateJpaAutoConfiguration.class)
-public class DemoMultiEntityManagers {
+public class DemoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoMultiEntityManagers.class, args);
+		SpringApplication.run(DemoApplication.class, args);
 	}
 
 }

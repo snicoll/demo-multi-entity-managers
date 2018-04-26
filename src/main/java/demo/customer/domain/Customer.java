@@ -22,6 +22,14 @@ public class Customer implements Serializable {
 	@Column(nullable = false)
 	private String lastName;
 
+	public Customer() {
+	}
+
+	public Customer(String firstName, String lastName) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+	}
+
 	public Long getId() {
 		return id;
 	}

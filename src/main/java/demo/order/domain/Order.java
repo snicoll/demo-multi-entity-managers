@@ -28,6 +28,14 @@ public class Order implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date orderDate;
 
+	public Order() {
+	}
+
+	public Order(Long customerId, Date orderDate) {
+		this.customerId = customerId;
+		this.orderDate = orderDate;
+	}
+
 	public Long getId() {
 		return id;
 	}
