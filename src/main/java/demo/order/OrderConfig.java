@@ -6,7 +6,7 @@ import demo.order.domain.Order;
 import org.apache.tomcat.jdbc.pool.DataSource;
 
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
@@ -40,9 +40,16 @@ public class OrderConfig {
 	}
 
 	@Bean
-	@ConfigurationProperties(prefix = "app.order.datasource")
+	@ConfigurationProperties("app.order.datasource")
+	public DataSourceProperties orderDataSourceProperties() {
+		return new DataSourceProperties();
+	}
+
+	@Bean
+	@ConfigurationProperties(prefix = "app.order.datasource.properties")
 	public DataSource orderDataSource() {
-		return (DataSource) DataSourceBuilder.create().type(DataSource.class).build();
+		return (DataSource) orderDataSourceProperties().initializeDataSourceBuilder()
+				.type(DataSource.class).build();
 	}
 
 	@Bean

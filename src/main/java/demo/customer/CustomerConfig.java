@@ -6,7 +6,7 @@ import demo.customer.domain.Customer;
 import org.apache.tomcat.jdbc.pool.DataSource;
 
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
@@ -42,9 +42,17 @@ public class CustomerConfig {
 
 	@Bean
 	@Primary
-	@ConfigurationProperties(prefix = "app.customer.datasource")
+	@ConfigurationProperties("app.customer.datasource")
+	public DataSourceProperties customerDataSourceProperties() {
+		return new DataSourceProperties();
+	}
+
+	@Bean
+	@Primary
+	@ConfigurationProperties(prefix = "app.customer.datasource.properties")
 	public DataSource customerDataSource() {
-		return (DataSource) DataSourceBuilder.create().type(DataSource.class).build();
+		return (DataSource) customerDataSourceProperties().initializeDataSourceBuilder()
+				.type(DataSource.class).build();
 	}
 
 	@Bean
