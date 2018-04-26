@@ -58,10 +58,10 @@ public class OrderConfig {
 		return new JpaTransactionManager(orderEntityManager);
 	}
 
-	private EntityManagerFactoryBuilder createEntityManagerFactoryBuilder(JpaProperties customerJpaProperties) {
-		JpaVendorAdapter jpaVendorAdapter = createJpaVendorAdapter(customerJpaProperties);
+	private EntityManagerFactoryBuilder createEntityManagerFactoryBuilder(JpaProperties orderJpaProperties) {
+		JpaVendorAdapter jpaVendorAdapter = createJpaVendorAdapter(orderJpaProperties);
 		return new EntityManagerFactoryBuilder(jpaVendorAdapter,
-				customerJpaProperties.getProperties(), this.persistenceUnitManager);
+				orderJpaProperties.getProperties(), this.persistenceUnitManager);
 	}
 
 	private JpaVendorAdapter createJpaVendorAdapter(JpaProperties jpaProperties) {
