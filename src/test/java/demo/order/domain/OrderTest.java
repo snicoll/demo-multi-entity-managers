@@ -13,7 +13,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
+@DataJpaTest // This slice test uses only enables selected auto-configuration and ignores OrderConfig
 public class OrderTest {
 
 	@Autowired
