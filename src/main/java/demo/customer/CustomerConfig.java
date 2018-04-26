@@ -5,7 +5,7 @@ import javax.persistence.EntityManagerFactory;
 import demo.customer.domain.Customer;
 import org.apache.tomcat.jdbc.pool.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -28,8 +28,11 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 		basePackageClasses = Customer.class)
 public class CustomerConfig {
 
-	@Autowired(required = false)
-	private PersistenceUnitManager persistenceUnitManager;
+	private final PersistenceUnitManager persistenceUnitManager;
+
+	public CustomerConfig(ObjectProvider<PersistenceUnitManager> persistenceUnitManager) {
+		this.persistenceUnitManager = persistenceUnitManager.getIfAvailable();
+	}
 
 	@Bean
 	@ConfigurationProperties("app.customer.jpa")
@@ -47,7 +50,8 @@ public class CustomerConfig {
 	@Bean
 	public LocalContainerEntityManagerFactoryBean customerEntityManager(
 			JpaProperties customerJpaProperties) {
-		EntityManagerFactoryBuilder builder = createEntityManagerFactoryBuilder(customerJpaProperties);
+		EntityManagerFactoryBuilder builder = createEntityManagerFactoryBuilder(
+				customerJpaProperties);
 		return builder
 				.dataSource(customerDataSource())
 				.packages(Customer.class)
@@ -57,11 +61,13 @@ public class CustomerConfig {
 
 	@Bean
 	@Primary
-	public JpaTransactionManager customerTransactionManager(EntityManagerFactory customerEntityManager) {
+	public JpaTransactionManager customerTransactionManager(
+			EntityManagerFactory customerEntityManager) {
 		return new JpaTransactionManager(customerEntityManager);
 	}
 
-	private EntityManagerFactoryBuilder createEntityManagerFactoryBuilder(JpaProperties customerJpaProperties) {
+	private EntityManagerFactoryBuilder createEntityManagerFactoryBuilder(
+			JpaProperties customerJpaProperties) {
 		JpaVendorAdapter jpaVendorAdapter = createJpaVendorAdapter(customerJpaProperties);
 		return new EntityManagerFactoryBuilder(jpaVendorAdapter,
 				customerJpaProperties.getProperties(), this.persistenceUnitManager);

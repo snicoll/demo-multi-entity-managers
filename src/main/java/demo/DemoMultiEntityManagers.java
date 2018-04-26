@@ -10,4 +10,5 @@ public class DemoMultiEntityManagers {
 	public static void main(String[] args) {
 		SpringApplication.run(DemoMultiEntityManagers.class, args);
 	}
+
 }
