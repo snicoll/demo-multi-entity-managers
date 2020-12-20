@@ -2,8 +2,8 @@ package demo.order;
 
 import javax.persistence.EntityManagerFactory;
 
+import com.zaxxer.hikari.HikariDataSource;
 import demo.order.domain.Order;
-import org.apache.tomcat.jdbc.pool.DataSource;
 
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -47,9 +47,9 @@ public class OrderConfig {
 
 	@Bean
 	@ConfigurationProperties(prefix = "app.order.datasource.properties")
-	public DataSource orderDataSource() {
-		return (DataSource) orderDataSourceProperties().initializeDataSourceBuilder()
-				.type(DataSource.class).build();
+	public HikariDataSource orderDataSource() {
+		return orderDataSourceProperties().initializeDataSourceBuilder()
+				.type(HikariDataSource.class).build();
 	}
 
 	@Bean
@@ -80,8 +80,12 @@ public class OrderConfig {
 	private JpaVendorAdapter createJpaVendorAdapter(JpaProperties jpaProperties) {
 		AbstractJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
 		adapter.setShowSql(jpaProperties.isShowSql());
-		adapter.setDatabase(jpaProperties.getDatabase());
-		adapter.setDatabasePlatform(jpaProperties.getDatabasePlatform());
+		if (jpaProperties.getDatabase() != null) {
+			adapter.setDatabase(jpaProperties.getDatabase());
+		}
+		if (jpaProperties.getDatabasePlatform() != null) {
+			adapter.setDatabasePlatform(jpaProperties.getDatabasePlatform());
+		}
 		adapter.setGenerateDdl(jpaProperties.isGenerateDdl());
 		return adapter;
 	}

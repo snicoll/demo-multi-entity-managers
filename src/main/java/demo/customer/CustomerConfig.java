@@ -2,8 +2,8 @@ package demo.customer;
 
 import javax.persistence.EntityManagerFactory;
 
+import com.zaxxer.hikari.HikariDataSource;
 import demo.customer.domain.Customer;
-import org.apache.tomcat.jdbc.pool.DataSource;
 
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -50,9 +50,9 @@ public class CustomerConfig {
 	@Bean
 	@Primary
 	@ConfigurationProperties(prefix = "app.customer.datasource.properties")
-	public DataSource customerDataSource() {
-		return (DataSource) customerDataSourceProperties().initializeDataSourceBuilder()
-				.type(DataSource.class).build();
+	public HikariDataSource customerDataSource() {
+		return customerDataSourceProperties().initializeDataSourceBuilder()
+				.type(HikariDataSource.class).build();
 	}
 
 	@Bean
@@ -84,8 +84,12 @@ public class CustomerConfig {
 	private JpaVendorAdapter createJpaVendorAdapter(JpaProperties jpaProperties) {
 		AbstractJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
 		adapter.setShowSql(jpaProperties.isShowSql());
-		adapter.setDatabase(jpaProperties.getDatabase());
-		adapter.setDatabasePlatform(jpaProperties.getDatabasePlatform());
+		if (jpaProperties.getDatabase() != null) {
+			adapter.setDatabase(jpaProperties.getDatabase());
+		}
+		if (jpaProperties.getDatabasePlatform() != null) {
+			adapter.setDatabasePlatform(jpaProperties.getDatabasePlatform());
+		}
 		adapter.setGenerateDdl(jpaProperties.isGenerateDdl());
 		return adapter;
 	}
