@@ -9,7 +9,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest // This slice test uses only enables selected auto-configuration and ignores OrderConfig
+@DataJpaTest // Slice test does not use OrderConfig
 class OrderTest {
 
 	@Autowired

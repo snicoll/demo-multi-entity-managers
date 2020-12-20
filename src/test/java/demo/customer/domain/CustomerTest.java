@@ -7,7 +7,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest // This slice test uses only enables selected auto-configuration and ignores CustomerConfig
+@DataJpaTest // Slice test does not use CustomerConfig
 class CustomerTest {
 
 	@Autowired

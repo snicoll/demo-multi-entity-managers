@@ -21,10 +21,8 @@ import org.springframework.orm.jpa.vendor.AbstractJpaVendorAdapter;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 @Configuration
-@EnableJpaRepositories(
-		entityManagerFactoryRef = "orderEntityManager",
-		transactionManagerRef = "orderTransactionManager",
-		basePackageClasses = Order.class)
+@EnableJpaRepositories(entityManagerFactoryRef = "orderEntityManager",
+		transactionManagerRef = "orderTransactionManager", basePackageClasses = Order.class)
 public class OrderConfig {
 
 	private final PersistenceUnitManager persistenceUnitManager;
@@ -48,33 +46,24 @@ public class OrderConfig {
 	@Bean
 	@ConfigurationProperties(prefix = "app.order.datasource.properties")
 	public HikariDataSource orderDataSource() {
-		return orderDataSourceProperties().initializeDataSourceBuilder()
-				.type(HikariDataSource.class).build();
+		return orderDataSourceProperties().initializeDataSourceBuilder().type(HikariDataSource.class).build();
 	}
 
 	@Bean
-	public LocalContainerEntityManagerFactoryBean orderEntityManager(
-			JpaProperties orderJpaProperties) {
-		EntityManagerFactoryBuilder builder = createEntityManagerFactoryBuilder(
-				orderJpaProperties);
-		return builder
-				.dataSource(orderDataSource())
-				.packages(Order.class)
-				.persistenceUnit("ordersDs")
-				.build();
+	public LocalContainerEntityManagerFactoryBean orderEntityManager(JpaProperties orderJpaProperties) {
+		EntityManagerFactoryBuilder builder = createEntityManagerFactoryBuilder(orderJpaProperties);
+		return builder.dataSource(orderDataSource()).packages(Order.class).persistenceUnit("ordersDs").build();
 	}
 
 	@Bean
-	public JpaTransactionManager orderTransactionManager(
-			EntityManagerFactory orderEntityManager) {
+	public JpaTransactionManager orderTransactionManager(EntityManagerFactory orderEntityManager) {
 		return new JpaTransactionManager(orderEntityManager);
 	}
 
-	private EntityManagerFactoryBuilder createEntityManagerFactoryBuilder(
-			JpaProperties orderJpaProperties) {
+	private EntityManagerFactoryBuilder createEntityManagerFactoryBuilder(JpaProperties orderJpaProperties) {
 		JpaVendorAdapter jpaVendorAdapter = createJpaVendorAdapter(orderJpaProperties);
-		return new EntityManagerFactoryBuilder(jpaVendorAdapter,
-				orderJpaProperties.getProperties(), this.persistenceUnitManager);
+		return new EntityManagerFactoryBuilder(jpaVendorAdapter, orderJpaProperties.getProperties(),
+				this.persistenceUnitManager);
 	}
 
 	private JpaVendorAdapter createJpaVendorAdapter(JpaProperties jpaProperties) {

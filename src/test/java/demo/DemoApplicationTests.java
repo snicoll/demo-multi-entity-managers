@@ -79,8 +79,7 @@ class DemoApplicationTests {
 	}
 
 	private int countItem(JdbcTemplate jdbcTemplate, String tableName) {
-		return jdbcTemplate.queryForObject(String.format(
-				"SELECT COUNT(*) from %s", tableName), Integer.class);
+		return jdbcTemplate.queryForObject(String.format("SELECT COUNT(*) from %s", tableName), Integer.class);
 	}
 
 }
