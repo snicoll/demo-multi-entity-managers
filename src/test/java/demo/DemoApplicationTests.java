@@ -10,21 +10,18 @@ import demo.customer.domain.Customer;
 import demo.customer.domain.CustomerRepository;
 import demo.order.domain.Order;
 import demo.order.domain.OrderRepository;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
-public class DemoApplicationTests {
+class DemoApplicationTests {
 
 	@Autowired
 	@Qualifier("customerDataSource")
@@ -41,14 +38,14 @@ public class DemoApplicationTests {
 	private OrderRepository orderRepository;
 
 	@Test
-	public void customerDataSourceIsInitializedProperly() {
+	void customerDataSourceIsInitializedProperly() {
 		JdbcTemplate customerTemplate = new JdbcTemplate(this.customerDataSource);
 		assertThat(hasTable(customerTemplate, "CUSTOMER")).isTrue();
 		assertThat(hasTable(customerTemplate, "CUSTOMER_ORDER")).isFalse();
 	}
 
 	@Test
-	public void customerRepositoryConfiguredProperly() {
+	void customerRepositoryConfiguredProperly() {
 		JdbcTemplate customerTemplate = new JdbcTemplate(this.customerDataSource);
 		int count = countItem(customerTemplate, "CUSTOMER");
 		Customer customer = new Customer("John", "Smith");
@@ -57,14 +54,14 @@ public class DemoApplicationTests {
 	}
 
 	@Test
-	public void orderDataSourceIsInitializedProperly() {
+	void orderDataSourceIsInitializedProperly() {
 		JdbcTemplate orderTemplate = new JdbcTemplate(this.orderDataSource);
 		assertThat(hasTable(orderTemplate, "CUSTOMER_ORDER")).isTrue();
 		assertThat(hasTable(orderTemplate, "CUSTOMER")).isFalse();
 	}
 
 	@Test
-	public void orderRepositoryConfiguredProperly() {
+	void orderRepositoryConfiguredProperly() {
 		JdbcTemplate orderTemplate = new JdbcTemplate(this.orderDataSource);
 		int count = countItem(orderTemplate, "CUSTOMER_ORDER");
 		Order order = new Order(123L, new Date());
