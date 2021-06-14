@@ -39,14 +39,12 @@ public class CustomerConfig {
 	}
 
 	@Bean
-	@Primary
 	@ConfigurationProperties("app.customer.datasource")
 	public DataSourceProperties customerDataSourceProperties() {
 		return new DataSourceProperties();
 	}
 
 	@Bean
-	@Primary
 	@ConfigurationProperties(prefix = "app.customer.datasource.properties")
 	public HikariDataSource customerDataSource() {
 		return customerDataSourceProperties().initializeDataSourceBuilder().type(HikariDataSource.class).build();
