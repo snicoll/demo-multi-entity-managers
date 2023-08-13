@@ -1,9 +1,8 @@
 package demo.order;
 
-import javax.persistence.EntityManagerFactory;
-
 import com.zaxxer.hikari.HikariDataSource;
 import demo.order.domain.Order;
+import jakarta.persistence.EntityManagerFactory;
 
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;

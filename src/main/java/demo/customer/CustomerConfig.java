@@ -1,9 +1,8 @@
 package demo.customer;
 
-import javax.persistence.EntityManagerFactory;
-
 import com.zaxxer.hikari.HikariDataSource;
 import demo.customer.domain.Customer;
+import jakarta.persistence.EntityManagerFactory;
 
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
